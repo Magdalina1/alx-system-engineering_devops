@@ -1,4 +1,3 @@
 #!/bin/bash
-printf "2.555 \n"
-2.555
+printf("num = %f\n",num)
 
