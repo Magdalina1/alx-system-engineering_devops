@@ -3,6 +3,6 @@
 i=10
 do
    until [ "$i" -le 0 ]
-   i=$ ((i - 1))
+   i=$((i - 1))
 done
 i=$i
