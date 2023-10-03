@@ -1,20 +1,11 @@
 #!/usr/bin/env bash
-# shellcheck disable=SC2154
-#configures a new Ubuntu machine nginx
-# The name of the custom HTTP header must be X-Served-By
-# The value of the custom HTTP header must be the hostname of the server Nginx is running on
-sudo apt-get update
-sudo apt-get install nginx -y
-sudo ufw allow 'nginx HTTP'
-sudo mkdir -p /var/www/html
-sudo chmod -R 755 /var/www
-echo'Hello World!' | sudo tee /var/www/html/index.html
-new_string="listen 80 default_server;\\n\\tlocation \/redirect_me https:\/\/www.princolinks.com"
-sudo sed -i "{ten 80 default_server;/$new_string/" /etc/nginx/sites-enabled/default
-echo "Ceci n'est pas une page" | sudo tee /usr/share/nginx/html/404.html
-string_for_replacement="server_name _;\n\ntadd_header X-served-By \$hostname;\n\twrite ^\/redirect_me https:\/\/www.princolinks.com permanent;"
-sudo sed -! "s/server_name _;$string_for_replacement/" /etc/nginx/sites-enabled/default
-string_for_replacement="listen 80 default_server;\n\terror_page 404 \/404.html;\n\tlocation = \/404.html {\n\t\troot \/var\/www\/html;\n\t\tinternal;\n\t}"
-sudo sed -i "s/listen 80 default_server;/$string_for_replacement/" /etc/nginx/sites-enabled/default
-
-sudo service nginx restart
+# Install nginx and add a custom header
+apt-get update
+apt-get -y install nginx
+ufw allow 'Nginx HTTP'
+echo "Hello, World" > /var/www/html/index.nginx-debian.html
+echo "Ceci n'est pas une page" > /usr/share/nginx/html/custom_404.html
+sed -i "/listen 80 default_server/a \\\trewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;" /etc/nginx/sites-available/default
+sed -i "/listen 80 default_server/a \\\terror_page 404 /custom_404.html; location = /custom_404.html {root /usr/share/nginx/html;\n\tinternal;}" /etc/nginx/sites-available/default
+sed -i "/listen 80 default_server/a \\\tadd_header X-Served-By $(hostname);" /etc/nginx/sites-available/default
+service nginx restart
