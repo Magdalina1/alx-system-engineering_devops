@@ -1,4 +1,3 @@
-#!/usr/bin/env bash
 #Using puppet to connect without password
 
 file_line { '/etc/ssh/ssh_config':
