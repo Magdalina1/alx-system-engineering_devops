@@ -9,3 +9,4 @@ sudo apt-get install -y nginx-extras
 sudo sed -i '/http {/a more_set_headers "X-Served-By: $hostname";' /etc/nginx/nginx.conf
 
 # Reload Nginx
+sudo service nginx restart
